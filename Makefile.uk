@@ -1,123 +1,103 @@
-#  libcares Makefile.uk
-#
-#  Authors: Felipe Huici <felipe.huici@neclab.eu>
-#
-#
-#  Copyright (c) 2019, NEC Europe Ltd., NEC Corporation. All rights reserved.
-#
-#  Redistribution and use in source and binary forms, with or without
-#  modification, are permitted provided that the following conditions
-#  are met:
-#
-#  1. Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
-#  2. Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
-#  3. Neither the name of the copyright holder nor the names of its
-#     contributors may be used to endorse or promote products derived from
-#     this software without specific prior written permission.
-#
-#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-#  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
-#  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
-#  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-#  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-#  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
-#  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-#  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
-#  POSSIBILITY OF SUCH DAMAGE.
-#
-
-################################################################################
-# Library registration
-################################################################################
+# SPDX-License-Identifier: BSD-3-Clause
 $(eval $(call addlib_s,libcares,$(CONFIG_LIBCARES)))
+LIBCARES_URL := https://github.com/c-ares/c-ares/releases/download/v1.34.9/c-ares-1.34.9.tar.gz
+LIBCARES_ORIGIN_SHA256 := 9364b70a12eb59a06830fb488d9357f90100dff0d98b23ea3593a183d43e6f2f
+$(eval $(call fetch,libcares,$(LIBCARES_URL)))
+LIBCARES_SRC := $(LIBCARES_ORIGIN)/c-ares-1.34.9
+CINCLUDES-$(CONFIG_LIBCARES) += -I$(LIBCARES_SRC)/include
+CXXINCLUDES-$(CONFIG_LIBCARES) += -I$(LIBCARES_SRC)/include
+LIBCARES_CINCLUDES-y += -I$(LIBCARES_BASE)/include -I$(LIBCARES_SRC)/src/lib/
+LIBCARES_CFLAGS-y += -D_GNU_SOURCE -DHAVE_CONFIG_H -DCARES_STATICLIB -std=c11
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_addrinfo2hostent.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_addrinfo_localhost.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_android.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_cancel.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_close_sockets.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_conn.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_cookie.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_data.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_destroy.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_free_hostent.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_free_string.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_freeaddrinfo.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_getaddrinfo.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_getenv.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_gethostbyaddr.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_gethostbyname.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_getnameinfo.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_hosts_file.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_init.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_library_init.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_metrics.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_options.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_parse_into_addrinfo.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_process.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_qcache.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_query.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_search.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_send.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_set_socket_functions.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_socket.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_sortaddrinfo.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_strerror.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_sysconfig.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_sysconfig_files.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_sysconfig_mac.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_sysconfig_win.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_timeout.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_update_servers.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/ares_version.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/inet_net_pton.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/inet_ntop.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/windows_port.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_array.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable_asvp.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable_dict.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable_strvp.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable_szvp.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable_vpstr.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_htable_vpvp.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_llist.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/dsa/ares_slist.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_configchg.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_epoll.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_kqueue.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_poll.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_select.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_thread.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_wake_pipe.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/event/ares_event_win32.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_create_query.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_expand_name.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_expand_string.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_fds.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_getsock.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_a_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_aaaa_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_caa_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_mx_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_naptr_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_ns_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_ptr_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_soa_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_srv_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_txt_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/legacy/ares_parse_uri_reply.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/record/ares_dns_mapping.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/record/ares_dns_multistring.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/record/ares_dns_name.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/record/ares_dns_parse.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/record/ares_dns_record.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/record/ares_dns_write.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/str/ares_buf.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/str/ares_str.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/str/ares_strsplit.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/util/ares_iface_ips.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/util/ares_threads.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/util/ares_timeval.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/util/ares_math.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/util/ares_rand.c
+LIBCARES_SRCS-y += $(LIBCARES_SRC)/src/lib/util/ares_uri.c
 
-#ifeq ($(CONFIG_LIBCARES),y)
-#ifneq ($(LWIP_IPV6),y)
-#$(error cares requires lwip's ipv6 option to be enabled)
-#endif
-#endif
-
-################################################################################
-# Sources
-################################################################################
-LIBCARES_VERSION=1.14.0
-LIBCARES_URL=https://c-ares.haxx.se/download/c-ares-$(LIBCARES_VERSION).tar.gz
-LIBCARES_DIR=c-ares-$(LIBCARES_VERSION)
-
-LIBCARES_PATCHDIR=$(LIBCARES_BASE)/patches
-$(eval $(call fetch,libcares,$(LIBCARES_URL),$(LIBCARES_VERSION).tar.gz))
-$(eval $(call patch,libcares,$(LIBCARES_PATCHDIR),$(LIBCARES_DIR)))
-
-################################################################################
-# Helpers
-################################################################################
-LIBCARES=$(LIBCARES_ORIGIN)/$(LIBCARES_DIR)
-
-################################################################################
-# Library includes
-################################################################################
-CINCLUDES-$(CONFIG_LIBCARES) += -I$(LIBCARES_BASE)/include \
-  			        -I$(LIBCARES)
-
-################################################################################
-# Global flags
-################################################################################
-LIBCARES_CFLAGS-y += -DHAVE_CONFIG_H -DHAVE_NETINET_IN_H
-
-################################################################################
-# Sources
-################################################################################
-LIBCARES_SRCS-y += $(LIBCARES)/ares_mkquery.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_nowarn.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_android.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_timeout.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_ns_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_getnameinfo.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_fds.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_mx_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_free_string.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_ptr_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_llist.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares__close_sockets.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_expand_string.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_strdup.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_search.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_send.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares__timeval.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_getenv.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_writev.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_version.c
-LIBCARES_SRCS-y += $(LIBCARES)/bitncmp.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_getopt.c
-LIBCARES_SRCS-y += $(LIBCARES)/inet_ntop.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares__read_line.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_srv_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_strerror.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_data.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_create_query.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_getsock.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_gethostbyaddr.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_naptr_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_process.c
-LIBCARES_SRCS-y += $(LIBCARES)/inet_net_pton.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_strcasecmp.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_free_hostent.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_cancel.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_query.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares__get_hostent.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_options.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_soa_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_a_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_destroy.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_init.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_txt_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_expand_name.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_parse_aaaa_reply.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_platform.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_gethostbyname.c
-LIBCARES_SRCS-y += $(LIBCARES)/ares_library_init.c
+LIBCARES_CINCLUDES-y += -I$(LIBCARES_SRC)/src/lib/include -I$(LIBCARES_SRC)/src/lib/dsa -I$(LIBCARES_SRC)/src/lib/event -I$(LIBCARES_SRC)/src/lib/legacy -I$(LIBCARES_SRC)/src/lib/record -I$(LIBCARES_SRC)/src/lib/str -I$(LIBCARES_SRC)/src/lib/util

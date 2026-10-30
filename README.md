@@ -1,10 +1,1 @@
-c-ares for Unikraft
-===================
-This is a port of c-ares to Unikraft. You will need newlib and lwip
-for it to work, so please ensure you add the following line to the
-LIBS variable in the Makefile:
-
-   ...$(UK_LIBS)/lwip:$(UK_LIBS)/newlib:$(UK_LIBS)/c-ares...
-		 
-Please refer to the `README.md` as well as the documentation in the `doc/`
-subdirectory of the main unikraft repository for further information.
+Local modern-source companion to https://github.com/unikraft/lib-c-ares at 3b94366cde25c0934f12fa5c5ce2c7beca61e6cd. Existing port is version 1.14.0; the c-ares port also selects the removed newlib path and forces IPv6. This isolated wrapper retains upstream sources and avoids changing the existing port or its ownership. Library modernization belongs in the existing port when preparing upstream submissions.

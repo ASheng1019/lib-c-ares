@@ -1,7 +1,3 @@
-menuconfig LIBCARES
-	   bool "c-ares - a C library for asynchronous DNS requests"
-	   default y
-	   select LIBNEWLIBC
-	   select LIBLWIP
-	   select LWIP_IPV6
-	   select UKSYSINFO
+config LIBCARES
+	bool "c-ares (pinned QUIC service dependency)"
+	depends on LIBMUSL
