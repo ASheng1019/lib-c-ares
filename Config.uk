@@ -1,3 +1,14 @@
-config LIBCARES
-	bool "c-ares (pinned QUIC service dependency)"
-	depends on LIBMUSL
+# SPDX-License-Identifier: BSD-3-Clause
+menuconfig LIBCARES
+	bool "c-ares: Asynchronous DNS resolver"
+	depends on LIBMUSL && LIBPOSIX_SOCKET
+	select LIBPOSIX_TIME
+	select LIBPOSIX_POLL
+	select LIBPOSIX_PIPE
+	select LIBUKRANDOM
+	select LIBUKRANDOM_GETRANDOM
+	default n
+	help
+	  Build c-ares with the musl POSIX ABI and poll event backend.
+	  Select an Internet socket provider separately; IPv6 is optional.
+	  This profile requires a securely seeded Unikraft random source.
